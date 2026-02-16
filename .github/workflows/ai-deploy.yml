@@ -27,14 +27,11 @@ on:
         required: false
         default: 'github-copilot'
 
-  # 當有新的 release 標籤時自動觸發
+  # 當有新的 release 標籤或特定分支推送時自動觸發
   push:
     tags:
       - 'v*'
       - 'release-*'
-  
-  # 當特定分支有推送時觸發
-  push:
     branches:
       - 'deploy/**'
       - 'ai-deploy/**'
@@ -185,8 +182,8 @@ jobs:
   test:
     name: 執行測試 / Run Tests
     runs-on: ubuntu-latest
-    needs: build
-    if: github.event.inputs.deployment_type != 'production'
+    needs: [prepare, build]
+    if: needs.prepare.outputs.deployment_type != 'production'
     
     steps:
       - name: 檢出代碼 / Checkout code

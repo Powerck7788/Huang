@@ -115,17 +115,29 @@ for pattern in "${EXCLUDE_PATTERNS[@]}"; do
     echo "  - ${pattern}"
 done
 
-# 複製文件（這裡簡化處理）
+# 複製文件
 print_info "複製必要文件到部署目錄..."
-rsync -av --progress \
-    --exclude='.git' \
-    --exclude='node_modules' \
-    --exclude='.github' \
-    --exclude='*.log' \
-    --exclude='deployment' \
-    ./ "${DEPLOY_DIR}/${DEPLOY_PACKAGE}/" 2>/dev/null || \
-    cp -r . "${DEPLOY_DIR}/${DEPLOY_PACKAGE}/" 2>/dev/null || \
-    print_warning "文件複製可能不完整"
+if command -v rsync &> /dev/null; then
+    # 使用 rsync（推薦）
+    rsync -av --progress \
+        --exclude='.git' \
+        --exclude='node_modules' \
+        --exclude='.github' \
+        --exclude='*.log' \
+        --exclude='deployment' \
+        ./ "${DEPLOY_DIR}/${DEPLOY_PACKAGE}/"
+    print_success "使用 rsync 複製文件"
+else
+    # 使用 cp 作為備選（不支持排除模式）
+    print_warning "rsync 未找到，使用 cp（可能包含額外文件）"
+    mkdir -p "${DEPLOY_DIR}/${DEPLOY_PACKAGE}"
+    cp -r . "${DEPLOY_DIR}/${DEPLOY_PACKAGE}/" 2>/dev/null || true
+    # 手動刪除不需要的目錄
+    rm -rf "${DEPLOY_DIR}/${DEPLOY_PACKAGE}/.git" 2>/dev/null || true
+    rm -rf "${DEPLOY_DIR}/${DEPLOY_PACKAGE}/node_modules" 2>/dev/null || true
+    rm -rf "${DEPLOY_DIR}/${DEPLOY_PACKAGE}/.github" 2>/dev/null || true
+    rm -rf "${DEPLOY_DIR}/${DEPLOY_PACKAGE}/deployment" 2>/dev/null || true
+fi
 
 print_success "文件準備完成"
 
@@ -178,11 +190,16 @@ case "${DEPLOYMENT_TYPE}" in
         print_info "🏭 部署到生產環境..."
         print_warning "這是生產環境部署，請確認所有測試都已通過！"
         
-        # 生產環境需要更嚴格的檢查
-        read -p "確認部署到生產環境？(yes/no): " confirm
-        if [ "${confirm}" != "yes" ]; then
-            print_error "部署已取消"
-            exit 1
+        # 在 CI/CD 環境中跳過互動式確認
+        if [ -z "$CI" ] && [ -z "$GITHUB_ACTIONS" ]; then
+            read -p "確認部署到生產環境？(yes/no): " confirm
+            if [ "${confirm}" != "yes" ]; then
+                print_error "部署已取消"
+                exit 1
+            fi
+        else
+            print_info "在自動化環境中執行，跳過確認步驟"
+            print_warning "請確保已在 GitHub 中配置環境保護規則"
         fi
         
         # 這裡可以添加生產環境特定的部署邏輯

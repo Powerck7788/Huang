@@ -13,22 +13,22 @@
 #### 🎯 核心功能
 
 1. **前端性能優化**
-   - Bundle 大小分析和優化
+   - Bundle（套件）大小分析和優化
    - 程式碼分割和樹搖（Tree Shaking）
    - 資源載入優化
    - 圖片優化策略
 
 2. **效能監控**
-   - Core Web Vitals 監控
+   - Core Web Vitals（核心網頁指標）監控
    - 自定義效能指標追蹤
    - 即時效能分析
-   - Bundle 大小檢查
+   - Bundle（套件）大小檢查
 
 3. **建構優化**
    - Webpack 配置優化
    - 生產環境建構優化
    - 快取策略
-   - CDN 部署優化
+   - CDN（內容傳遞網路）部署優化
 
 4. **資料庫和 API 優化**
    - 查詢優化建議
@@ -59,7 +59,7 @@
   - GitHub Actions 工作流程
   - 自動 bundle 大小檢查
   - 效能回歸測試
-  - Lighthouse 稽核
+  - Lighthouse 審查
 
 #### 🚀 快速開始
 
@@ -76,7 +76,7 @@ npm install
 
 # 4. 使用效能工具
 npm run build:analyze  # 分析 bundle 大小
-npm run lighthouse     # 執行 Lighthouse 稽核
+npm run lighthouse     # 執行 Lighthouse 審查
 npm run size-limit     # 檢查大小限制
 ```
 

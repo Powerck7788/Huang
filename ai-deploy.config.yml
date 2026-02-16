@@ -1,0 +1,171 @@
+# AI 部署配置
+# AI Deployment Configuration
+
+# 此文件包含 AI 自動化部署的配置選項
+# This file contains configuration options for AI automated deployment
+
+# ============================================================
+# 部署環境配置 / Deployment Environment Configuration
+# ============================================================
+
+# 預覽環境 / Preview Environment
+preview:
+  url: "https://preview.example.com"
+  branch: "deploy/preview"
+  auto_deploy: true
+  run_tests: false
+  
+# 測試環境 / Staging Environment
+staging:
+  url: "https://staging.example.com"
+  branch: "deploy/staging"
+  auto_deploy: false
+  run_tests: true
+  require_approval: false
+
+# 生產環境 / Production Environment
+production:
+  url: "https://production.example.com"
+  branch: "main"
+  auto_deploy: false
+  run_tests: true
+  require_approval: true
+
+# ============================================================
+# 構建配置 / Build Configuration
+# ============================================================
+
+build:
+  node_version: "18"
+  package_manager: "npm"  # npm, yarn, pnpm
+  build_command: "npm run build"
+  output_directory: "dist"
+  
+# ============================================================
+# 測試配置 / Test Configuration
+# ============================================================
+
+tests:
+  unit_tests: "npm test"
+  integration_tests: "npm run test:integration"
+  e2e_tests: "npm run test:e2e"
+  # 注意：coverage_threshold 是示例配置
+  # 需要在工作流程中實現相應的檢查邏輯
+  coverage_threshold: 80
+
+# ============================================================
+# 部署配置 / Deployment Configuration
+# ============================================================
+
+deployment:
+  # 部署策略 / Deployment Strategy
+  strategy: "rolling"  # rolling, blue-green, canary
+  
+  # 回滾策略 / Rollback Strategy
+  auto_rollback: true
+  rollback_on_failure: true
+  
+  # 健康檢查 / Health Check
+  health_check_url: "/health"
+  health_check_interval: 30
+  health_check_timeout: 10
+
+# ============================================================
+# 通知配置 / Notification Configuration
+# ============================================================
+
+notifications:
+  # 啟用通知 / Enable Notifications
+  enabled: true
+  
+  # 通知渠道 / Notification Channels
+  channels:
+    - github_comments
+    - slack
+    - email
+  
+  # 通知事件 / Notification Events
+  events:
+    - deployment_started
+    - deployment_completed
+    - deployment_failed
+    - tests_failed
+
+# ============================================================
+# AI 代理配置 / AI Agent Configuration
+# ============================================================
+
+ai_agents:
+  # 允許的 AI 代理 / Allowed AI Agents
+  allowed:
+    - github-copilot
+    - chatgpt
+    - claude
+    - custom-ai
+  
+  # AI 權限 / AI Permissions
+  permissions:
+    preview: true
+    staging: true
+    production: false  # 生產環境需要人工批准
+
+# ============================================================
+# 安全配置 / Security Configuration
+# ============================================================
+
+security:
+  # 需要簽名 / Require Signature
+  require_signature: false
+  
+  # 允許的分支 / Allowed Branches
+  allowed_branches:
+    - main
+    - develop
+    - "deploy/**"
+    - "ai-deploy/**"
+  
+  # IP 白名單 / IP Whitelist (optional)
+  ip_whitelist: []
+
+# ============================================================
+# 日誌配置 / Logging Configuration
+# ============================================================
+
+logging:
+  # 日誌級別 / Log Level
+  level: "info"  # debug, info, warn, error
+  
+  # 保留天數 / Retention Days
+  retention_days: 30
+  
+  # 日誌格式 / Log Format
+  format: "json"  # json, text
+
+# ============================================================
+# 性能配置 / Performance Configuration
+# ============================================================
+
+performance:
+  # 並行構建 / Parallel Builds
+  parallel_builds: false
+  
+  # 快取 / Caching
+  enable_cache: true
+  cache_key: "v1-dependencies"
+  
+  # 超時設置 / Timeout Settings
+  build_timeout: 30  # minutes
+  deploy_timeout: 15  # minutes
+
+# ============================================================
+# 自定義配置 / Custom Configuration
+# ============================================================
+
+custom:
+  # 在這裡添加您的自定義配置
+  # Add your custom configuration here
+  
+  # 示例：
+  # api_endpoint: "https://api.example.com"
+  # feature_flags:
+  #   new_feature: true

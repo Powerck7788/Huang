@@ -52,11 +52,18 @@ env:
   NODE_VERSION: '18'
   DEPLOY_DIR: 'dist'
 
+# 設置工作流程級別的權限（最小權限原則）
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   # 準備階段：檢查環境和參數
   prepare:
     name: 準備部署環境 / Prepare Deployment
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       deployment_type: ${{ steps.set-params.outputs.deployment_type }}
       environment: ${{ steps.set-params.outputs.environment }}
@@ -118,6 +125,9 @@ jobs:
     name: 構建應用程式 / Build Application
     runs-on: ubuntu-latest
     needs: prepare
+    permissions:
+      contents: read
+      actions: write  # 需要上傳 artifacts
     
     steps:
       - name: 檢出代碼 / Checkout code
@@ -184,6 +194,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [prepare, build]
     if: needs.prepare.outputs.deployment_type != 'production'
+    permissions:
+      contents: read
     
     steps:
       - name: 檢出代碼 / Checkout code
@@ -213,6 +225,9 @@ jobs:
     name: 部署到 ${{ needs.prepare.outputs.environment }} / Deploy to ${{ needs.prepare.outputs.environment }}
     runs-on: ubuntu-latest
     needs: [prepare, build]
+    permissions:
+      contents: read
+      actions: read  # 需要下載 artifacts
     environment:
       name: ${{ needs.prepare.outputs.deployment_type }}
       url: https://github.com/${{ github.repository }}
@@ -285,6 +300,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [prepare, deploy]
     if: always()
+    permissions:
+      contents: read  # 最小權限
     
     steps:
       - name: 生成部署報告 / Generate deployment report

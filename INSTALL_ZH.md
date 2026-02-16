@@ -190,18 +190,34 @@ performanceMeasure('feature-duration', 'feature-start', 'feature-end');
 
 #### Q: 安裝時出現權限錯誤怎麼辦？
 
-A: 在 Linux 或 macOS 上，您可能需要使用 `sudo`：
-
-```bash
-sudo ./安裝.sh
-```
-
-或者修改腳本權限：
+A: 首先嘗試修改腳本權限：
 
 ```bash
 chmod +x 安裝.sh
 ./安裝.sh
 ```
+
+如果還是有權限問題，可能是 npm 全局安裝目錄的權限問題。建議使用以下方法之一：
+
+**方法 1：配置 npm 使用用戶目錄（推薦）**
+
+```bash
+mkdir ~/.npm-global
+npm config set prefix '~/.npm-global'
+echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
+```
+
+**方法 2：使用 nvm（Node Version Manager）**
+
+```bash
+# 安裝 nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+# 使用 nvm 安裝 Node.js
+nvm install node
+```
+
+⚠️ **安全提示**：除非絕對必要，否則不要使用 `sudo` 執行安裝腳本，因為這可能會有安全風險。
 
 #### Q: 安裝失敗，顯示 "command not found"？
 

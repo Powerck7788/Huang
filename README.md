@@ -9,6 +9,7 @@
 > **🎯 只看得懂中文？**  
 > 👉 **[快速開始指南 (快速開始.md)](快速開始.md)** - 一分鐘快速上手！  
 > 👉 **[詳細安裝指南 (INSTALL_ZH.md)](INSTALL_ZH.md)** - 完整安裝說明  
+> 👉 **[AI 自動化部署指南 (AI_DEPLOY_ZH.md)](AI_DEPLOY_ZH.md)** - 🤖 AI 專用部署通道  
 > 👉 或直接執行：`./安裝.sh` 開始自動安裝流程
 
 ### 你能處理什麼事？/ What Can This Handle?
@@ -47,6 +48,12 @@
    - CSS-in-JS 優化
    - 關鍵 CSS 提取
 
+6. **🤖 AI 自動化部署**
+   - AI 專用部署通道
+   - 一鍵自動化部署
+   - 多環境支持（預覽/測試/生產）
+   - 完整的部署監控和日誌
+
 #### 📦 提供的工具
 
 - **自動化設置腳本** (`scripts/performance-setup.sh`)
@@ -65,6 +72,12 @@
   - 自動 bundle 大小檢查
   - 效能回歸測試
   - Lighthouse 審查
+
+- **🤖 AI 自動化部署系統**
+  - AI 專用部署工作流程 (`.github/workflows/ai-deploy.yml`)
+  - 自動化部署腳本 (`scripts/ai-deploy.sh`)
+  - 完整的中文部署指南 (`AI_DEPLOY_ZH.md`)
+  - 支持多種觸發方式（手動、標籤、分支）
 
 #### 🚀 快速開始
 

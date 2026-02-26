@@ -188,6 +188,13 @@ This repository provides a comprehensive **Performance Optimization Framework an
   - Automatic configuration of webpack, Lighthouse, size-limit
   - Creation of performance monitoring utilities
   - CI/CD integration setup
+  - Generates the following configuration files:
+    - `lighthouse.config.js` - Lighthouse audit configuration
+    - `.size-limit.json` - Bundle size limit rules
+    - `performance-budget.json` - Performance budget settings
+    - `webpack.performance.config.js` - Webpack optimization config
+    - `src/utils/performance.js` - Web Vitals monitoring utilities
+    - `.github/workflows/performance.yml` - CI/CD performance workflow
 
 - **Complete Documentation**
   - `PERFORMANCE_ANALYSIS.md` - Detailed optimization guide
@@ -199,6 +206,21 @@ This repository provides a comprehensive **Performance Optimization Framework an
   - Automatic bundle size checks
   - Performance regression testing
   - Lighthouse audits
+
+- **Performance Monitoring Utilities** (`src/utils/performance.js`)
+  ```javascript
+  // Add to your root-level entry point (e.g., index.js)
+  import { initPerformanceMonitoring } from './src/utils/performance.js';
+  initPerformanceMonitoring();
+  ```
+
+#### ✅ Automation Benefits
+
+- ✅ Automated bundle size checking in CI/CD
+- ✅ Performance regression detection
+- ✅ Lighthouse audits on every build
+- ✅ Size limit enforcement
+- ✅ Real-time Web Vitals monitoring
 
 #### 🚀 Quick Start
 
